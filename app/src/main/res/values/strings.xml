@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">BossTimer</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string-array name="boss_array">
+        <item>다크 지란트</item>
+        <item>머쉬맘</item>
+        <item>우르자</item>
+        <item>부기콜리</item>
+        <item>그리폰</item>
+        <item>경비대장 차우</item>
+
+    </string-array>
+
+</resources>
