@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">Boss Timer</string>
 
-    <string name="action_settings">About</string>
 
     <string-array name="boss_array">
         <item>다크 지란트</item>

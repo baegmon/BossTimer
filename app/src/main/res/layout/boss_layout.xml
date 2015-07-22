@@ -35,11 +35,11 @@
         android:text="Time"
         android:id="@+id/boss_time"
         android:textColor="#FF9900"
-        android:layout_marginLeft="13dp"
-        android:layout_marginStart="13dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginEnd="32dp"
         android:layout_alignTop="@+id/boss_appearance"
-        android:layout_toRightOf="@+id/boss_appearance"
-        android:layout_toEndOf="@+id/boss_appearance" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:layout_width="wrap_content"
