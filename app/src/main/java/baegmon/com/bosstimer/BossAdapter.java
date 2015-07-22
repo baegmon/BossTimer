@@ -68,8 +68,8 @@ public class BossAdapter extends ArrayAdapter {
 
         handler.boss.setImageResource(boss.getBoss_icon());
         handler.name.setText(boss.getBoss_name());
-        handler.time.setText(boss.getBoss_time());
-        handler.appearance.setText(boss.getBoss_appearance());
+        handler.time.setText("(~" + boss.getBoss_time() + ")");
+        handler.appearance.setText("다음출현: " + boss.getBoss_appearance());
 
         return row;
     }
