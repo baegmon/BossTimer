@@ -5,72 +5,112 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import java.util.ArrayList;
-import java.util.List;
-
-public class BossAdapter extends ArrayAdapter {
-    List list = new ArrayList<>();
 
 
-    public BossAdapter(Context context, int resource) {
-        super(context, resource);
-    }
+public class BossAdapter extends BaseAdapter implements Filterable{
 
-    static class dataHandler{
-        ImageView boss;
-        TextView name;
-        TextView time;
-        TextView appearance;
-    }
+    Context context;
+    ArrayList<Boss> bossList;
+    ArrayList<Boss> bossStringFilterList;
+    BossFilter filter;
 
-    @Override
-    public void add(Object object) {
-        super.add(object);
-        list.add(object);
+
+     BossAdapter(Context context, ArrayList<Boss> bossList) {
+         this.context = context;
+         this.bossList = bossList;
+         bossStringFilterList = bossList;
+
     }
 
     @Override
-    public int getCount() {
-        return this.list.size();
+    public int getCount(){
+       return bossList.size();
     }
 
     @Override
-    public Object getItem(int position) {
-        return this.list.get(position);
+    public Object getItem(int position){
+        return bossList.get(position);
     }
+
+    @Override
+    public long getItemId(int position){
+        return bossList.indexOf(getItem(position));
+    }
+
+    @Override
+    public Filter getFilter() {
+        if (filter == null){
+            filter  = new BossFilter();
+        }
+        return filter;
+    }
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        View row;
-        row = convertView;
-        dataHandler handler;
-        if(convertView == null){
-            LayoutInflater inflater = (LayoutInflater)this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            row = inflater.inflate(R.layout.boss_layout, parent, false);
-            handler = new dataHandler();
-            handler.boss = (ImageView)row.findViewById(R.id.boss_icon);
-            handler.name = (TextView)row.findViewById(R.id.boss_name);
-            handler.time = (TextView)row.findViewById(R.id.boss_time);
-            handler.appearance = (TextView)row.findViewById(R.id.boss_appearance);
+        LayoutInflater vi = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            row.setTag(handler);
-        } else {
-            handler = (dataHandler) row.getTag();
+        convertView = null;
+
+        if(convertView == null){
+            convertView = vi.inflate(R.layout.boss_layout, null);
+
+            ImageView bossIcon = (ImageView)convertView.findViewById(R.id.boss_icon);
+            TextView name = (TextView)convertView.findViewById(R.id.boss_name);
+            TextView time = (TextView)convertView.findViewById(R.id.boss_time);
+            TextView appearance = (TextView)convertView.findViewById(R.id.boss_appearance);
+
+            Boss boss = bossList.get(position);
+
+            bossIcon.setImageResource(boss.getBoss_icon());
+            name.setText(boss.getBoss_name());
+            time.setText("(~" + boss.getBoss_time() + ")");
+            appearance.setText("다음출현: " + boss.getBoss_appearance());
+
+        }
+        return convertView;
+    }
+
+    private class BossFilter extends Filter{
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+
+            FilterResults results = new FilterResults();
+
+            if(constraint != null && constraint.length() > 0){
+                ArrayList<Boss> filterList = new ArrayList<Boss>();
+                for(int i =0; i < bossStringFilterList.size(); i++){
+                    if((bossStringFilterList.get(i).getBoss_name().toLowerCase()).contains(constraint.toString().toLowerCase())){
+                        Boss boss = new Boss(bossStringFilterList.get(i).getBoss_icon(), bossStringFilterList.get(i).getBoss_name(),
+                                bossStringFilterList.get(i).getBoss_time(), bossStringFilterList.get(i).getBoss_appearance());
+                        filterList.add(boss);
+
+                    }
+                }
+
+                results.count = filterList.size();
+                results.values = filterList;
+
+            } else {
+                results.count = bossStringFilterList.size();
+                results.values = bossStringFilterList;
+            }
+
+            return results;
         }
 
-        Boss boss;
-        boss = (Boss)this.getItem(position);
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results){
+            bossList = (ArrayList<Boss>)results.values;
+            notifyDataSetChanged();
 
-        handler.boss.setImageResource(boss.getBoss_icon());
-        handler.name.setText(boss.getBoss_name());
-        handler.time.setText("(~" + boss.getBoss_time() + ")");
-        handler.appearance.setText("다음출현: " + boss.getBoss_appearance());
-
-        return row;
+        }
     }
 }

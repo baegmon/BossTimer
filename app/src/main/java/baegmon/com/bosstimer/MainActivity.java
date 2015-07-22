@@ -1,28 +1,27 @@
 package baegmon.com.bosstimer;
 
-import android.content.Intent;
+import android.app.Activity;
 import android.os.Handler;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.ListView;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity  {
     ListView listView;
     int[] boss_icon = {R.drawable.boss_1, R.drawable.boss_2, R.drawable.boss_3,
             R.drawable.boss_4, R.drawable.boss_5, R.drawable.boss_6, R.drawable.boss_7,
-    R.drawable.boss_8, R.drawable.boss_9, R.drawable.boss_10, R.drawable.boss_11,
+            R.drawable.boss_8, R.drawable.boss_9, R.drawable.boss_10, R.drawable.boss_11,
             R.drawable.boss_12, R.drawable.boss_13, R.drawable.boss_14, R.drawable.boss_15,
             R.drawable.boss_16, R.drawable.boss_17, R.drawable.boss_18};
     String[] boss_title;
@@ -31,7 +30,8 @@ public class MainActivity extends ActionBarActivity {
     String[] bossTime;
     Handler handler;
     String[] bossAppearance;
-
+    EditText search_view;
+    ArrayList<Boss> bossList;
 
 
 
@@ -39,11 +39,25 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        createListview();
+
+    }
+
+    private void createListview(){
         listView = (ListView) findViewById(R.id.list_view);
+        search_view = (EditText)findViewById(R.id.search_text);
 
         boss_title = getResources().getStringArray(R.array.boss_array);
-        adapter = new BossAdapter(getApplicationContext(), R.layout.boss_layout);
+
+        bossList = new ArrayList<Boss>();
+
+
+        adapter = new BossAdapter(getApplicationContext(), bossList);
+
+
         listView.setAdapter(adapter);
+        listView.setTextFilterEnabled(true);
         bossTime = getKoreanTime();
 
         int i = 0;
@@ -51,7 +65,7 @@ public class MainActivity extends ActionBarActivity {
         for (String boss : boss_title) {
             bossAppearance = bossAppearance(i);
             Boss bossObject = new Boss(boss_icon[i], boss, bossTime[i], bossAppearance[i]);
-            adapter.add(bossObject);
+            bossList.add(bossObject);
             i++;
         }
 
@@ -73,6 +87,21 @@ public class MainActivity extends ActionBarActivity {
             }
         };
         handler.postDelayed(update, 10);
+
+        EditText myFilter = (EditText) findViewById(R.id.search_text);
+        myFilter.addTextChangedListener(new TextWatcher() {
+
+            public void afterTextChanged(Editable s) {
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapter.getFilter().filter(s.toString());
+            }
+        });
+
     }
 
     @Override
@@ -134,8 +163,6 @@ public class MainActivity extends ActionBarActivity {
         } catch (ParseException e){
             e.printStackTrace();
         }
-
-
 
         return return_array;
     }
@@ -527,177 +554,177 @@ public class MainActivity extends ActionBarActivity {
 
                 break;
             case 5: // 닉시
-               if(hourValue >= 0 && hourValue <= 12){
-                   if(hourValue == 0){
-                       if(minuteValue < 5){
-                           boss_appearance[i] = hourValue + ":05";
-                       } else {
-                           boss_appearance[i] = hourValue+1 + ":05";
-                       }
-                   } else if (hourValue == 1){
-                       if(minuteValue < 5){
-                           boss_appearance[i] = hourValue + ":05";
-                       } else {
-                           boss_appearance[i] = hourValue+1 + ":05";
-                       }
-                   } else if (hourValue == 2){
-                       if(minuteValue < 5){
-                           boss_appearance[i] = hourValue + ":05";
-                       } else {
-                           boss_appearance[i] = hourValue+1 + ":05";
-                       }
-                   } else if (hourValue == 3){
-                       if(minuteValue < 5){
-                           boss_appearance[i] = hourValue + ":05";
-                       } else {
-                           boss_appearance[i] = hourValue+1 + ":05";
-                       }
-                   } else if (hourValue == 4){
-                       if(minuteValue < 5){
-                           boss_appearance[i] = hourValue + ":05";
-                       } else {
-                           boss_appearance[i] = hourValue+1 + ":05";
-                       }
-                   } else if (hourValue == 5){
-                       if(minuteValue < 5){
-                           boss_appearance[i] = hourValue + ":05";
-                       } else {
-                           boss_appearance[i] = hourValue+1 + ":05";
-                       }
-                   } else if (hourValue == 6){
-                       if(minuteValue < 5){
-                           boss_appearance[i] = hourValue + ":05";
-                       } else {
-                           boss_appearance[i] = hourValue+1 + ":05";
-                       }
-                   }  else if (hourValue == 7){
-                       if(minuteValue < 5){
-                           boss_appearance[i] = hourValue + ":05";
-                       } else {
-                           boss_appearance[i] = hourValue+1 + ":05";
-                       }
-                   }  else if (hourValue == 8){
-                       if(minuteValue < 5){
-                           boss_appearance[i] = hourValue + ":05";
-                       } else {
-                           boss_appearance[i] = hourValue+1 + ":05";
-                       }
-                   }  else if (hourValue == 9){
-                       if(minuteValue < 5){
-                           boss_appearance[i] = hourValue + ":05";
-                       } else {
-                           boss_appearance[i] = hourValue+1 + ":05";
-                       }
-                   } else if (hourValue == 10){
-                       if(minuteValue < 5){
-                           boss_appearance[i] = hourValue + ":05";
-                       } else {
-                           boss_appearance[i] = hourValue+1 + ":05";
-                       }
-                   }  else if (hourValue == 11){
-                       if(minuteValue < 5){
-                           boss_appearance[i] = hourValue + ":05";
-                       } else {
-                           boss_appearance[i] = hourValue+1 + ":05";
-                       }
-                   }  else if (hourValue == 12){
-                       if(minuteValue < 5){
-                           boss_appearance[i] = hourValue + ":05";
-                       } else {
-                           boss_appearance[i] = hourValue+1 + ":05";
-                       }
-                   }
+                if(hourValue >= 0 && hourValue <= 12){
+                    if(hourValue == 0){
+                        if(minuteValue < 5){
+                            boss_appearance[i] = hourValue + ":05";
+                        } else {
+                            boss_appearance[i] = hourValue+1 + ":05";
+                        }
+                    } else if (hourValue == 1){
+                        if(minuteValue < 5){
+                            boss_appearance[i] = hourValue + ":05";
+                        } else {
+                            boss_appearance[i] = hourValue+1 + ":05";
+                        }
+                    } else if (hourValue == 2){
+                        if(minuteValue < 5){
+                            boss_appearance[i] = hourValue + ":05";
+                        } else {
+                            boss_appearance[i] = hourValue+1 + ":05";
+                        }
+                    } else if (hourValue == 3){
+                        if(minuteValue < 5){
+                            boss_appearance[i] = hourValue + ":05";
+                        } else {
+                            boss_appearance[i] = hourValue+1 + ":05";
+                        }
+                    } else if (hourValue == 4){
+                        if(minuteValue < 5){
+                            boss_appearance[i] = hourValue + ":05";
+                        } else {
+                            boss_appearance[i] = hourValue+1 + ":05";
+                        }
+                    } else if (hourValue == 5){
+                        if(minuteValue < 5){
+                            boss_appearance[i] = hourValue + ":05";
+                        } else {
+                            boss_appearance[i] = hourValue+1 + ":05";
+                        }
+                    } else if (hourValue == 6){
+                        if(minuteValue < 5){
+                            boss_appearance[i] = hourValue + ":05";
+                        } else {
+                            boss_appearance[i] = hourValue+1 + ":05";
+                        }
+                    }  else if (hourValue == 7){
+                        if(minuteValue < 5){
+                            boss_appearance[i] = hourValue + ":05";
+                        } else {
+                            boss_appearance[i] = hourValue+1 + ":05";
+                        }
+                    }  else if (hourValue == 8){
+                        if(minuteValue < 5){
+                            boss_appearance[i] = hourValue + ":05";
+                        } else {
+                            boss_appearance[i] = hourValue+1 + ":05";
+                        }
+                    }  else if (hourValue == 9){
+                        if(minuteValue < 5){
+                            boss_appearance[i] = hourValue + ":05";
+                        } else {
+                            boss_appearance[i] = hourValue+1 + ":05";
+                        }
+                    } else if (hourValue == 10){
+                        if(minuteValue < 5){
+                            boss_appearance[i] = hourValue + ":05";
+                        } else {
+                            boss_appearance[i] = hourValue+1 + ":05";
+                        }
+                    }  else if (hourValue == 11){
+                        if(minuteValue < 5){
+                            boss_appearance[i] = hourValue + ":05";
+                        } else {
+                            boss_appearance[i] = hourValue+1 + ":05";
+                        }
+                    }  else if (hourValue == 12){
+                        if(minuteValue < 5){
+                            boss_appearance[i] = hourValue + ":05";
+                        } else {
+                            boss_appearance[i] = hourValue+1 + ":05";
+                        }
+                    }
 
-               } else if (hourValue >= 12 && hourValue <= 23){
-                   if(hourValue == 13){
-                       if(minuteValue < 5){
-                           boss_appearance[i] = hourValue +":05";
-                       } else if (minuteValue >= 5 && minuteValue < 35) {
+                } else if (hourValue >= 12 && hourValue <= 23){
+                    if(hourValue == 13){
+                        if(minuteValue < 5){
+                            boss_appearance[i] = hourValue +":05";
+                        } else if (minuteValue >= 5 && minuteValue < 35) {
                             boss_appearance[i] = hourValue + ":35";
-                       } else {
-                           boss_appearance[i] = hourValue+1 + ":05";
-                       }
-                   } else if(hourValue == 14){
-                       if(minuteValue < 5){
-                           boss_appearance[i] = hourValue +":05";
-                       } else if (minuteValue >= 5 && minuteValue < 35) {
-                           boss_appearance[i] = hourValue + ":35";
-                       } else {
-                           boss_appearance[i] = hourValue+1 + ":05";
-                       }
-                   } else if(hourValue == 15){
-                       if(minuteValue < 5){
-                           boss_appearance[i] = hourValue +":05";
-                       } else if (minuteValue >= 5 && minuteValue < 35) {
-                           boss_appearance[i] = hourValue + ":35";
-                       } else {
-                           boss_appearance[i] = hourValue+1 + ":05";
-                       }
-                   } else if(hourValue == 16){
-                       if(minuteValue < 5){
-                           boss_appearance[i] = hourValue +":05";
-                       } else if (minuteValue >= 5 && minuteValue < 35) {
-                           boss_appearance[i] = hourValue + ":35";
-                       } else {
-                           boss_appearance[i] = hourValue+1 + ":05";
-                       }
-                   } else if(hourValue == 17){
-                       if(minuteValue < 5){
-                           boss_appearance[i] = hourValue +":05";
-                       } else if (minuteValue >= 5 && minuteValue < 35) {
-                           boss_appearance[i] = hourValue + ":35";
-                       } else {
-                           boss_appearance[i] = hourValue+1 + ":05";
-                       }
-                   } else if(hourValue == 18){
-                       if(minuteValue < 5){
-                           boss_appearance[i] = hourValue +":05";
-                       } else if (minuteValue >= 5 && minuteValue < 35) {
-                           boss_appearance[i] = hourValue + ":35";
-                       } else {
-                           boss_appearance[i] = hourValue+1 + ":05";
-                       }
-                   } else if(hourValue == 19){
-                       if(minuteValue < 5){
-                           boss_appearance[i] = hourValue +":05";
-                       } else if (minuteValue >= 5 && minuteValue < 35) {
-                           boss_appearance[i] = hourValue + ":35";
-                       } else {
-                           boss_appearance[i] = hourValue+1 + ":05";
-                       }
-                   } else if(hourValue == 20){
-                       if(minuteValue < 5){
-                           boss_appearance[i] = hourValue +":05";
-                       } else if (minuteValue >= 5 && minuteValue < 35) {
-                           boss_appearance[i] = hourValue + ":35";
-                       } else {
-                           boss_appearance[i] = hourValue+1 + ":05";
-                       }
-                   } else if(hourValue == 21){
-                       if(minuteValue < 5){
-                           boss_appearance[i] = hourValue +":05";
-                       } else if (minuteValue >= 5 && minuteValue < 35) {
-                           boss_appearance[i] = hourValue + ":35";
-                       } else {
-                           boss_appearance[i] = hourValue+1 + ":05";
-                       }
-                   } else if(hourValue == 22){
-                       if(minuteValue < 5){
-                           boss_appearance[i] = hourValue +":05";
-                       } else if (minuteValue >= 5 && minuteValue < 35) {
-                           boss_appearance[i] = hourValue + ":35";
-                       } else {
-                           boss_appearance[i] = hourValue+1 + ":05";
-                       }
-                   } else if (hourValue == 23){
-                       if(minuteValue < 5){
-                           boss_appearance[i] = hourValue + ":05";
-                       } else {
-                           boss_appearance[i] = hourValue+1 + ":05";
-                       }
-                   }
+                        } else {
+                            boss_appearance[i] = hourValue+1 + ":05";
+                        }
+                    } else if(hourValue == 14){
+                        if(minuteValue < 5){
+                            boss_appearance[i] = hourValue +":05";
+                        } else if (minuteValue >= 5 && minuteValue < 35) {
+                            boss_appearance[i] = hourValue + ":35";
+                        } else {
+                            boss_appearance[i] = hourValue+1 + ":05";
+                        }
+                    } else if(hourValue == 15){
+                        if(minuteValue < 5){
+                            boss_appearance[i] = hourValue +":05";
+                        } else if (minuteValue >= 5 && minuteValue < 35) {
+                            boss_appearance[i] = hourValue + ":35";
+                        } else {
+                            boss_appearance[i] = hourValue+1 + ":05";
+                        }
+                    } else if(hourValue == 16){
+                        if(minuteValue < 5){
+                            boss_appearance[i] = hourValue +":05";
+                        } else if (minuteValue >= 5 && minuteValue < 35) {
+                            boss_appearance[i] = hourValue + ":35";
+                        } else {
+                            boss_appearance[i] = hourValue+1 + ":05";
+                        }
+                    } else if(hourValue == 17){
+                        if(minuteValue < 5){
+                            boss_appearance[i] = hourValue +":05";
+                        } else if (minuteValue >= 5 && minuteValue < 35) {
+                            boss_appearance[i] = hourValue + ":35";
+                        } else {
+                            boss_appearance[i] = hourValue+1 + ":05";
+                        }
+                    } else if(hourValue == 18){
+                        if(minuteValue < 5){
+                            boss_appearance[i] = hourValue +":05";
+                        } else if (minuteValue >= 5 && minuteValue < 35) {
+                            boss_appearance[i] = hourValue + ":35";
+                        } else {
+                            boss_appearance[i] = hourValue+1 + ":05";
+                        }
+                    } else if(hourValue == 19){
+                        if(minuteValue < 5){
+                            boss_appearance[i] = hourValue +":05";
+                        } else if (minuteValue >= 5 && minuteValue < 35) {
+                            boss_appearance[i] = hourValue + ":35";
+                        } else {
+                            boss_appearance[i] = hourValue+1 + ":05";
+                        }
+                    } else if(hourValue == 20){
+                        if(minuteValue < 5){
+                            boss_appearance[i] = hourValue +":05";
+                        } else if (minuteValue >= 5 && minuteValue < 35) {
+                            boss_appearance[i] = hourValue + ":35";
+                        } else {
+                            boss_appearance[i] = hourValue+1 + ":05";
+                        }
+                    } else if(hourValue == 21){
+                        if(minuteValue < 5){
+                            boss_appearance[i] = hourValue +":05";
+                        } else if (minuteValue >= 5 && minuteValue < 35) {
+                            boss_appearance[i] = hourValue + ":35";
+                        } else {
+                            boss_appearance[i] = hourValue+1 + ":05";
+                        }
+                    } else if(hourValue == 22){
+                        if(minuteValue < 5){
+                            boss_appearance[i] = hourValue +":05";
+                        } else if (minuteValue >= 5 && minuteValue < 35) {
+                            boss_appearance[i] = hourValue + ":35";
+                        } else {
+                            boss_appearance[i] = hourValue+1 + ":05";
+                        }
+                    } else if (hourValue == 23){
+                        if(minuteValue < 5){
+                            boss_appearance[i] = hourValue + ":05";
+                        } else {
+                            boss_appearance[i] = hourValue+1 + ":05";
+                        }
+                    }
 
-               }
+                }
 
 
 
@@ -1070,7 +1097,7 @@ public class MainActivity extends ActionBarActivity {
                             boss_appearance[i] = hourValue + 2 + ":05";
                         }
                     }
-               } else if (hourValue >= 1 && hourValue <= 3){
+                } else if (hourValue >= 1 && hourValue <= 3){
                     if(hourValue == 2){
                         boss_appearance[i] = hourValue + 1 + ":05";
                     } else if (hourValue == 3){
@@ -1744,5 +1771,4 @@ public class MainActivity extends ActionBarActivity {
         return boss_appearance;
     }
 }
-
 
