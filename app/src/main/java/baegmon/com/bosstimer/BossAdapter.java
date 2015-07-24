@@ -11,12 +11,14 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 public class BossAdapter extends BaseAdapter implements Filterable{
 
     Context context;
     ArrayList<Boss> bossList;
+    ArrayList<Boss> bossTempList;
     ArrayList<Boss> bossStringFilterList;
     BossFilter filter;
 
@@ -37,6 +39,7 @@ public class BossAdapter extends BaseAdapter implements Filterable{
     public Object getItem(int position){
         return bossList.get(position);
     }
+
 
     @Override
     public long getItemId(int position){
@@ -84,12 +87,20 @@ public class BossAdapter extends BaseAdapter implements Filterable{
 
             FilterResults results = new FilterResults();
 
+            constraint = constraint.toString().toLowerCase(Locale.getDefault());
+            ArrayList<Boss> filterList = new ArrayList<Boss>();
+
+
             if(constraint != null && constraint.length() > 0){
-                ArrayList<Boss> filterList = new ArrayList<Boss>();
+
                 for(int i =0; i < bossStringFilterList.size(); i++){
                     if((bossStringFilterList.get(i).getBoss_name().toLowerCase()).contains(constraint.toString().toLowerCase())){
-                        Boss boss = new Boss(bossStringFilterList.get(i).getBoss_icon(), bossStringFilterList.get(i).getBoss_name(),
-                                bossStringFilterList.get(i).getBoss_time(), bossStringFilterList.get(i).getBoss_appearance());
+
+                        Boss boss = new Boss(bossStringFilterList.get(i).getBoss_icon(),
+                                bossStringFilterList.get(i).getBoss_name(),
+                                bossStringFilterList.get(i).getBoss_time(),
+                                bossStringFilterList.get(i).getBoss_appearance());
+
                         filterList.add(boss);
 
                     }

@@ -8,6 +8,8 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.widget.EditText;
 import android.widget.ListView;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,15 +26,15 @@ public class MainActivity extends Activity  {
             R.drawable.boss_8, R.drawable.boss_9, R.drawable.boss_10, R.drawable.boss_11,
             R.drawable.boss_12, R.drawable.boss_13, R.drawable.boss_14, R.drawable.boss_15,
             R.drawable.boss_16, R.drawable.boss_17, R.drawable.boss_18};
-    String[] boss_title;
+    String[] boss_title=  new String[18];
     BossAdapter adapter;
 
-    String[] bossTime;
+    String[] bossTime=  new String[18];
     Handler handler;
-    String[] bossAppearance;
+    String[] bossAppearance=  new String[18];
     EditText search_view;
     ArrayList<Boss> bossList;
-
+    int bossID;
 
 
     @Override
@@ -40,10 +42,77 @@ public class MainActivity extends Activity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        AdView ad = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        ad.loadAd(adRequest);
+
+
         createListview();
 
     }
 
+    private int getID(String name){
+        int id = 99;
+
+        switch(name){
+            case "다크 지란트":
+                id = 0;
+                return id;
+            case "머쉬맘":
+                id = 1;
+                return id;
+            case "MARK52 알파":
+                id = 2;
+                return id;
+            case "깡패 바라하":
+                id = 3;
+                return id;
+            case "데블린 워리어":
+                id = 4;
+                return id;
+            case "닉시":
+                id = 5;
+                return id;
+            case "에피":
+                id = 6;
+                return id;
+            case "자이언트 라바아이":
+                id = 7;
+                return id;
+            case "둔둔":
+                id = 8;
+                return id;
+            case "레버넌트 좀비":
+                id = 9;
+                return id;
+            case "우르자":
+                id = 10;
+                return id;
+            case "부기콜리":
+                id = 11;
+                return id;
+            case "그리폰":
+                id = 12;
+                return id;
+            case "프랑케네뜨":
+                id = 13;
+                return id;
+            case "경비대장 차우":
+                id = 14;
+                return id;
+            case "그리피나":
+                id = 15;
+                return id;
+            case "매드오네뜨":
+                id = 16;
+                return id;
+            case "자이언트 터틀":
+                id = 17;
+                return id;
+        }
+
+        return id;
+    }
     private void createListview(){
         listView = (ListView) findViewById(R.id.list_view);
         search_view = (EditText)findViewById(R.id.search_text);
@@ -51,8 +120,6 @@ public class MainActivity extends Activity  {
         boss_title = getResources().getStringArray(R.array.boss_array);
 
         bossList = new ArrayList<Boss>();
-
-
         adapter = new BossAdapter(getApplicationContext(), bossList);
 
 
@@ -60,30 +127,33 @@ public class MainActivity extends Activity  {
         listView.setTextFilterEnabled(true);
         bossTime = getKoreanTime();
 
-        int i = 0;
-        // Moved our object creation here, so that it should only be done once.
+
         for (String boss : boss_title) {
-            bossAppearance = bossAppearance(i);
-            Boss bossObject = new Boss(boss_icon[i], boss, bossTime[i], bossAppearance[i]);
+            bossID = getID(boss);
+            bossAppearance = bossAppearance(bossID);
+
+
+            Boss bossObject = new Boss(boss_icon[bossID], boss, bossTime[bossID], bossAppearance[bossID]);
             bossList.add(bossObject);
-            i++;
+
         }
+
 
         handler = new Handler();
         Runnable update = new Runnable() {
             @Override
             public void run() {
                 bossTime = getKoreanTime();
-                int i = 0;
+
 
                 int count = adapter.getCount();
-                for (i = 0; i < count; i++) {
+                for (int i = 0; i < count; i++) {
                     bossAppearance = bossAppearance(i);
                     ((Boss) adapter.getItem(i)).setBoss_time(bossTime[i]); // Re-set time
-                    ((Boss) adapter.getItem(i)).setBoss_appearance(bossAppearance[i]);
                 }
+
                 adapter.notifyDataSetChanged(); // Notify our update
-                handler.postDelayed(this , 1000);
+                handler.postDelayed(this, 1000);
             }
         };
         handler.postDelayed(update, 10);
@@ -114,8 +184,8 @@ public class MainActivity extends Activity  {
 
     public String[] getKoreanTime(){
         String[] boss_appearance;
-        String[] format_array = new String[18];
-        String[] return_array = new String[18];
+        String[] format_array = new String[boss_icon.length];
+        String[] return_array = new String[boss_icon.length];
         Calendar c = Calendar.getInstance();
 
         Calendar seoulTime = new GregorianCalendar(TimeZone.getTimeZone("Asia/Seoul"));
@@ -170,7 +240,7 @@ public class MainActivity extends Activity  {
 
 
     public String[] bossAppearance(int i){
-        String[] boss_appearance = new String[18];
+        String[] boss_appearance = new String[boss_icon.length];
 
         Calendar seoulTime = new GregorianCalendar(TimeZone.getTimeZone("Asia/Seoul"));
 

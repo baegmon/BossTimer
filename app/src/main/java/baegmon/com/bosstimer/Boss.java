@@ -8,11 +8,15 @@ public class Boss {
     private String boss_time_resource;
     private String boss_appearance;
 
-    public Boss(int boss_icon, String boss_name, String boss_time, String boss_appearance){
+
+
+
+    public Boss(int boss_icon, String boss_name, String boss_time, String boss_appearance ){
         this.setBoss_icon(boss_icon);
         this.setBoss_name(boss_name);
         this.setBoss_time(boss_time);
         this.setBoss_appearance(boss_appearance);
+
     }
 
     public int getBoss_icon() {
@@ -47,5 +51,7 @@ public class Boss {
     public void setBoss_appearance(String boss_appearance) {
         this.boss_appearance = boss_appearance;
     }
+
+
 
 }
