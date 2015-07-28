@@ -15,6 +15,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 
 public class MainActivity extends Activity  {
@@ -136,6 +138,15 @@ public class MainActivity extends Activity  {
             String bossAppearance = getBossAppearance(boss);
             String bossTime = getKoreanTime(boss);
 
+            if(bossAppearance.substring(0, 2).contains("24")) {
+
+                bossAppearance = "00" + bossAppearance.substring(2, 5);
+            }
+
+            if(bossAppearance.length() == 4){
+                bossAppearance = "0" + bossAppearance;
+            }
+
 
             Boss bossObject = new Boss(boss_icon[bossID], boss, bossTime, bossAppearance);
             bossList.add(bossObject);
@@ -190,7 +201,14 @@ public class MainActivity extends Activity  {
         String boss_appearance;
         String format_string;
         String return_string = "";
+        Calendar seoulTime = new GregorianCalendar(TimeZone.getTimeZone("Asia/Seoul"));
+
         Calendar c = Calendar.getInstance();
+        c.set(Calendar.HOUR_OF_DAY, seoulTime.get(Calendar.HOUR_OF_DAY));
+        c.set(Calendar.MINUTE, seoulTime.get(Calendar.MINUTE));
+        c.set(Calendar.SECOND, seoulTime.get(Calendar.SECOND));
+
+
         SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
         String currentTime = format.format(c.getTime());
         Date date1;
@@ -198,7 +216,7 @@ public class MainActivity extends Activity  {
             Date date2 = format.parse(currentTime);
             boss_appearance = getBossAppearance(bossName);
             if(!boss_appearance.isEmpty()){
-                format_string = boss_appearance+ ":00";
+                format_string = boss_appearance + ":00";
                 date1 = format.parse(format_string);
 
                 Long diff = date1.getTime() - date2.getTime();
@@ -224,7 +242,6 @@ public class MainActivity extends Activity  {
                 } else {
                     finalTime =  diffHours + ":" + diffMinutes + ":" + diffSeconds;
                 }
-
                 return_string = finalTime;
             }
         } catch (ParseException e){
@@ -235,20 +252,15 @@ public class MainActivity extends Activity  {
     }
 
 
-
-
     public String getBossAppearance(String bossName){
         String boss_appearance = "";
-        /*
+
         Calendar seoulTime = new GregorianCalendar(TimeZone.getTimeZone("Asia/Seoul"));
 
         Calendar c = Calendar.getInstance();
         c.set(Calendar.HOUR_OF_DAY, seoulTime.get(Calendar.HOUR_OF_DAY));
         c.set(Calendar.MINUTE, seoulTime.get(Calendar.MINUTE));
         c.set(Calendar.SECOND, seoulTime.get(Calendar.SECOND));
-        */
-
-        Calendar c = Calendar.getInstance();
 
         SimpleDateFormat hour = new SimpleDateFormat("HH");
         SimpleDateFormat minute = new SimpleDateFormat("mm");
@@ -258,11 +270,22 @@ public class MainActivity extends Activity  {
         Long minuteValue = Long.parseLong(formattedMinute);
 
         if(bossName == "다크 지란트"){
-            if(hourValue >= 0  && hourValue <= 11){
+            if(hourValue >= 0  && hourValue <= 8){
                 if(minuteValue < 40){
                     boss_appearance =  hourValue +  ":40";
                 } else {
-                    boss_appearance = hourValue + 1 + ":40";
+                    boss_appearance =  hourValue + 1 + ":40";
+                }
+            } else if (hourValue >= 9 && hourValue <= 11){
+                if(minuteValue < 40){
+                    if(hourValue == 9){
+                        boss_appearance =   hourValue +  ":40";
+                    } else {
+                        boss_appearance =   hourValue +  ":40";
+                    }
+
+                } else {
+                    boss_appearance =  hourValue + 1 + ":40";
                 }
             } else if (hourValue == 12){
                 if(minuteValue < 40){
@@ -290,17 +313,28 @@ public class MainActivity extends Activity  {
                 if(minuteValue < 40){
                     boss_appearance =  hourValue +  ":40";
                 } else {
-                    boss_appearance = hourValue + 1 + ":40";
+                    boss_appearance =   hourValue + 1 + ":40";
                 }
             }
         }
 
         if (bossName == "머쉬맘"){
-            if(hourValue >= 0  && hourValue <= 11){
+            if(hourValue >= 0  && hourValue <= 8){
                 if(minuteValue < 40){
-                    boss_appearance =  hourValue +  ":40";
+                    boss_appearance = hourValue +  ":40";
                 } else {
                     boss_appearance = hourValue + 1 + ":40";
+                }
+            } else if (hourValue >= 9 && hourValue <= 11){
+                if(minuteValue < 40){
+                    if(hourValue == 9){
+                        boss_appearance =  hourValue +  ":40";
+                    } else {
+                        boss_appearance =   hourValue +  ":40";
+                    }
+
+                } else {
+                    boss_appearance =  hourValue + 1 + ":40";
                 }
             } else if (hourValue == 12){
                 if(minuteValue < 40){
@@ -328,7 +362,7 @@ public class MainActivity extends Activity  {
                 if(minuteValue < 40){
                     boss_appearance =  hourValue +  ":40";
                 } else {
-                    boss_appearance = hourValue + 1 + ":40";
+                    boss_appearance =  hourValue + 1 + ":40";
                 }
             }
         }
@@ -338,37 +372,37 @@ public class MainActivity extends Activity  {
 
             if(hourValue == 0){
                 if(minuteValue < 45){
-                    boss_appearance = hourValue + ":45";
+                    boss_appearance =  hourValue + ":45";
                 } else {
                     boss_appearance = hourValue+2 + ":15";
                 }
             } else if (hourValue == 1){
-                boss_appearance = hourValue+1 + ":15";
+                boss_appearance =  hourValue+1 + ":15";
             } else if (hourValue == 2){
                 if(minuteValue < 15){
-                    boss_appearance = hourValue + ":45";
+                    boss_appearance =hourValue + ":45";
                 } else {
-                    boss_appearance = hourValue+1 + ":45";
+                    boss_appearance =  hourValue+1 + ":45";
                 }
             } else if (hourValue == 3){
                 if(minuteValue < 45){
-                    boss_appearance = hourValue + ":45";
+                    boss_appearance =  hourValue + ":45";
                 } else {
                     boss_appearance = hourValue+2 + ":15";
                 }
             } else if (hourValue == 4){
-                boss_appearance = hourValue+1 + ":15";
+                boss_appearance =  hourValue+1 + ":15";
             } else if (hourValue == 5){
                 if(minuteValue < 15){
-                    boss_appearance = hourValue + ":15";
+                    boss_appearance =  hourValue + ":15";
                 } else {
-                    boss_appearance = hourValue+1 + ":45";
+                    boss_appearance =  hourValue+1 + ":45";
                 }
             } else if (hourValue == 6){
                 if(minuteValue < 45){
-                    boss_appearance = hourValue + ":45";
+                    boss_appearance =  hourValue + ":45";
                 } else {
-                    boss_appearance = hourValue+2 + ":15";
+                    boss_appearance =  hourValue+2 + ":15";
                 }
             } else if (hourValue == 7){
                 boss_appearance = hourValue+1 + ":15";
@@ -417,9 +451,19 @@ public class MainActivity extends Activity  {
         }
 
         if(bossName == "깡패 바라하"){
-            if(hourValue >= 0 && hourValue <= 11){
+            if(hourValue >= 0 && hourValue <= 9){
                 if(minuteValue < 55){
-                    boss_appearance = hourValue + ":55";
+                    boss_appearance =  hourValue + ":55";
+                } else {
+                    if(hourValue == 9){
+                        boss_appearance = hourValue+1 + ":55";
+                    } else {
+                        boss_appearance =  hourValue+1 + ":55";
+                    }
+                }
+            } else if (hourValue >= 10 && hourValue <= 11){
+                if(minuteValue < 55){
+                    boss_appearance =  hourValue + ":55";
                 } else {
                     boss_appearance = hourValue+1 + ":55";
                 }
@@ -459,49 +503,49 @@ public class MainActivity extends Activity  {
         if(bossName == "데블린 워리어") {
             if (hourValue == 0) {
                 if (minuteValue < 55) {
-                    boss_appearance = hourValue + ":55";
+                    boss_appearance =  hourValue + ":55";
                 } else {
-                    boss_appearance = hourValue + 2 + ":55";
+                    boss_appearance =  hourValue + 2 + ":55";
                 }
             } else if (hourValue == 1) {
-                boss_appearance = hourValue + 1 + ":25";
+                boss_appearance =  hourValue + 1 + ":25";
             } else if (hourValue == 2) {
                 if (minuteValue < 25) {
-                    boss_appearance = hourValue + ":25";
+                    boss_appearance =  hourValue + ":25";
                 } else {
-                    boss_appearance = hourValue + 1 + ":55";
+                    boss_appearance =  hourValue + 1 + ":55";
                 }
             } else if (hourValue == 3) {
                 if (minuteValue < 55) {
-                    boss_appearance = hourValue + ":55";
+                    boss_appearance =  hourValue + ":55";
                 } else {
-                    boss_appearance = hourValue + 2 + ":25";
+                    boss_appearance =  hourValue + 2 + ":25";
                 }
             } else if (hourValue == 4){
-                boss_appearance = hourValue+1 + ":25";
+                boss_appearance =  hourValue+1 + ":25";
             } else if (hourValue == 5){
                 if(minuteValue < 25){
-                    boss_appearance = hourValue + ":25";
+                    boss_appearance =  hourValue + ":25";
                 } else {
-                    boss_appearance = hourValue+1 + ":55";
+                    boss_appearance =  hourValue+1 + ":55";
                 }
             } else if (hourValue == 6){
                 if(minuteValue < 55){
-                    boss_appearance = hourValue + ":55";
+                    boss_appearance =  hourValue + ":55";
                 } else {
-                    boss_appearance = hourValue+2 + ":25";
+                    boss_appearance =  hourValue+2 + ":25";
                 }
             } else if (hourValue == 7){
-                boss_appearance = hourValue+1 + ":25";
+                boss_appearance =  hourValue+1 + ":25";
             } else if (hourValue == 8){
                 if(minuteValue < 25){
-                    boss_appearance = hourValue + ":25";
+                    boss_appearance =  hourValue + ":25";
                 } else {
-                    boss_appearance = hourValue+1 + ":55";
+                    boss_appearance =  hourValue+1 + ":55";
                 }
             } else if (hourValue == 9){
                 if(minuteValue < 55){
-                    boss_appearance = hourValue + ":55";
+                    boss_appearance =  hourValue + ":55";
                 } else {
                     boss_appearance = hourValue +2+ ":25";
                 }
@@ -540,10 +584,23 @@ public class MainActivity extends Activity  {
         if(bossName == "닉시"){
 
             if(hourValue >= 0 && hourValue <= 12){
-                if(minuteValue < 5){
-                    boss_appearance = hourValue + ":05";
+                if(hourValue >= 0 && hourValue <= 9){
+                    if(minuteValue < 5){
+                        boss_appearance =  hourValue + ":05";
+                    } else{
+                        if(hourValue < 9){
+                            boss_appearance =   hourValue + 1 + ":05";
+                        } else {
+                            boss_appearance =   hourValue + 1 + ":05";
+                        }
+
+                    }
                 } else{
-                    boss_appearance = hourValue + 1 + ":05";
+                    if(minuteValue < 5){
+                        boss_appearance = hourValue + ":05";
+                    } else{
+                        boss_appearance = hourValue + 1 + ":05";
+                    }
                 }
             } else if (hourValue >= 13 && hourValue <= 22){
                 if(minuteValue < 5){
@@ -565,10 +622,24 @@ public class MainActivity extends Activity  {
 
         if(bossName == "에피"){
             if(hourValue >= 0 && hourValue <= 12){
-                if(minuteValue < 5){
-                    boss_appearance = hourValue + ":05";
-                } else{
-                    boss_appearance = hourValue + 1 + ":05";
+                if(hourValue >= 0 && hourValue <= 9){
+                    if(minuteValue < 5){
+                        boss_appearance =  hourValue + ":05";
+                    } else{
+                        if(hourValue < 9){
+                            boss_appearance =  hourValue + 1 + ":05";
+                        } else {
+                            boss_appearance = hourValue + 1 + ":05";
+                        }
+
+                    }
+                } else {
+                    if(minuteValue < 5){
+                        boss_appearance = hourValue + ":05";
+                    } else {
+                        boss_appearance = hourValue + 1 + ":05";
+                    }
+
                 }
             } else if (hourValue >= 13 && hourValue <= 22){
                 if(minuteValue < 5){
@@ -589,10 +660,23 @@ public class MainActivity extends Activity  {
 
         if(bossName == "자이언트 라바아이"){
             if(hourValue >= 0 && hourValue <= 12){
-                if(minuteValue < 5){
-                    boss_appearance = hourValue + ":05";
-                } else{
-                    boss_appearance = hourValue + 1 + ":05";
+                if(hourValue >= 0 && hourValue <= 9){
+                    if(minuteValue < 5){
+                        boss_appearance =  hourValue + ":05";
+                    } else{
+                        if(hourValue < 9){
+                            boss_appearance =  hourValue + 1 + ":05";
+                        }else {
+                            boss_appearance = hourValue + 1 + ":05";
+                        }
+
+                    }
+                } else {
+                    if(minuteValue < 5){
+                        boss_appearance = hourValue + ":05";
+                    } else{
+                        boss_appearance = hourValue + 1 + ":05";
+                    }
                 }
             } else if (hourValue >= 13 && hourValue <= 22){
                 if(minuteValue < 5){
@@ -616,47 +700,47 @@ public class MainActivity extends Activity  {
                 if(minuteValue < 5){
                     boss_appearance = hourValue + ":05";
                 } else {
-                    boss_appearance = hourValue+1 + ":35";
+                    boss_appearance =   hourValue+1 + ":35";
                 }
             } else if (hourValue == 1){
                 if(minuteValue < 35){
-                    boss_appearance = hourValue + ":35";
+                    boss_appearance =  hourValue + ":35";
                 } else {
-                    boss_appearance = hourValue +2+ ":05";
+                    boss_appearance =  hourValue +2+ ":05";
                 }
             } else if (hourValue == 2){
-                boss_appearance = hourValue+1 + ":05";
+                boss_appearance =   hourValue+1 + ":05";
             } else if (hourValue == 3){
                 if(minuteValue < 5){
-                    boss_appearance = hourValue + ":05";
+                    boss_appearance =  hourValue + ":05";
                 } else {
-                    boss_appearance = hourValue+1 + ":35";
+                    boss_appearance =  hourValue+1 + ":35";
                 }
             } else if (hourValue == 4){
                 if(minuteValue < 35){
-                    boss_appearance = hourValue + ":35";
+                    boss_appearance =   hourValue + ":35";
                 } else {
-                    boss_appearance = hourValue+2 + ":05";
+                    boss_appearance =   hourValue+2 + ":05";
                 }
             } else if (hourValue == 5){
-                boss_appearance = hourValue+1 + ":05";
+                boss_appearance =   hourValue+1 + ":05";
             } else if (hourValue == 6){
                 if(minuteValue < 5){
-                    boss_appearance = hourValue + ":05";
+                    boss_appearance =  hourValue + ":05";
                 } else {
-                    boss_appearance = hourValue+1 + ":35";
+                    boss_appearance =   hourValue+1 + ":35";
                 }
             } else if (hourValue == 7){
                 if(minuteValue < 35){
-                    boss_appearance = hourValue + ":35";
+                    boss_appearance =   hourValue + ":35";
                 } else {
-                    boss_appearance = hourValue+2 + ":05";
+                    boss_appearance =   hourValue+2 + ":05";
                 }
              } else if (hourValue == 8){
-                boss_appearance = hourValue+1 + ":05";
+                boss_appearance =   hourValue+1 + ":05";
             } else if (hourValue == 9){
                 if(minuteValue < 5){
-                    boss_appearance = hourValue + ":05";
+                    boss_appearance =   hourValue + ":05";
                 } else {
                     boss_appearance = hourValue+11 + ":35";
                 }
@@ -693,10 +777,22 @@ public class MainActivity extends Activity  {
 
         if(bossName == "레버넌트 좀비"){
             if(hourValue >= 0 && hourValue <= 12){
-                if(minuteValue < 15){
-                    boss_appearance = hourValue + ":15";
+                if(hourValue >= 0 && hourValue <= 9){
+                    if(minuteValue < 15){
+                        boss_appearance = hourValue + ":15";
+                    } else {
+                        if(hourValue < 9){
+                            boss_appearance =  hourValue +1 + ":15";
+                        } else {
+                            boss_appearance = hourValue +1 + ":15";
+                        }
+                    }
                 } else {
-                    boss_appearance = hourValue +1 + ":15";
+                    if(minuteValue < 15){
+                        boss_appearance = hourValue + ":15";
+                    } else {
+                        boss_appearance = hourValue +1 + ":15";
+                    }
                 }
             } else if (hourValue >= 13 && hourValue <= 22){
                 if(minuteValue < 15){
@@ -718,86 +814,88 @@ public class MainActivity extends Activity  {
 
         if(bossName == "우르자"){
             if(minuteValue < 5){
-                boss_appearance = hourValue + ":05";
+                boss_appearance =  hourValue + ":05";
             } else if (minuteValue >= 5 && minuteValue < 15){
-                boss_appearance = hourValue + ":15";
+                boss_appearance =  hourValue + ":15";
             } else if (minuteValue >= 15 && minuteValue < 25){
-                boss_appearance = hourValue + ":25";
+                boss_appearance =  hourValue + ":25";
             } else if (minuteValue >= 25 && minuteValue < 35){
-                boss_appearance = hourValue + ":35";
+                boss_appearance =  hourValue + ":35";
             } else if (minuteValue >= 35 && minuteValue < 45){
-                boss_appearance = hourValue + ":45";
+                boss_appearance = + hourValue + ":45";
             } else if (minuteValue >= 45 && minuteValue < 55){
-                boss_appearance = hourValue + ":55";
+                boss_appearance =  + hourValue + ":55";
             } else {
-                boss_appearance = hourValue+1 + ":05";
+                boss_appearance =  + hourValue+1 + ":05";
             }
+
         }
 
         if(bossName == "부기콜리"){
             if(minuteValue < 5){
-                boss_appearance = hourValue + ":05";
+                boss_appearance =  hourValue + ":05";
             } else if (minuteValue >= 5 && minuteValue < 15){
-                boss_appearance = hourValue + ":15";
+                boss_appearance =  hourValue + ":15";
             } else if (minuteValue >= 15 && minuteValue < 25){
-                boss_appearance = hourValue + ":25";
+                boss_appearance =  hourValue + ":25";
             } else if (minuteValue >= 25 && minuteValue < 35){
-                boss_appearance = hourValue + ":35";
+                boss_appearance =  hourValue + ":35";
             } else if (minuteValue >= 35 && minuteValue < 45){
-                boss_appearance = hourValue + ":45";
+                boss_appearance =  hourValue + ":45";
             } else if (minuteValue >= 45 && minuteValue < 55){
-                boss_appearance = hourValue + ":55";
+                boss_appearance =  hourValue + ":55";
             } else {
-                boss_appearance = hourValue+1 + ":05";
+                boss_appearance =  hourValue+1 + ":05";
             }
+
         }
 
         if(bossName == "그리폰") {
             if (hourValue == 0) {
                 if (minuteValue < 15) {
-                    boss_appearance = hourValue + ":15";
+                    boss_appearance =  hourValue + ":15";
                 } else {
-                    boss_appearance = hourValue + 1 + ":45";
+                    boss_appearance =  hourValue + 1 + ":45";
                 }
             } else if (hourValue == 1) {
                 if (minuteValue < 45) {
-                    boss_appearance = hourValue + ":45";
+                    boss_appearance =  hourValue + ":45";
                 } else {
-                    boss_appearance = hourValue + 2 + ":15";
+                    boss_appearance =  hourValue + 2 + ":15";
                 }
             } else if (hourValue == 2) {
-                boss_appearance = hourValue + 1 + ":15";
+                boss_appearance =  hourValue + 1 + ":15";
             } else if (hourValue == 3) {
                 if (minuteValue < 15) {
-                    boss_appearance = hourValue + ":15";
+                    boss_appearance =  hourValue + ":15";
                 } else {
-                    boss_appearance = hourValue + 1 + ":45";
+                    boss_appearance =  hourValue + 1 + ":45";
                 }
             } else if (hourValue == 4) {
                 if (minuteValue < 45) {
-                    boss_appearance = hourValue + ":45";
+                    boss_appearance =  hourValue + ":45";
                 } else {
-                    boss_appearance = hourValue + 2 + ":15";
+                    boss_appearance =  hourValue + 2 + ":15";
                 }
             } else if (hourValue == 5) {
-                boss_appearance = hourValue + 1 + ":15";
+                boss_appearance =  hourValue + 1 + ":15";
             } else if (hourValue == 6) {
                 if (minuteValue < 15) {
-                    boss_appearance = hourValue + ":15";
+                    boss_appearance =  hourValue + ":15";
                 } else {
-                    boss_appearance = hourValue + 1 + ":45";
+                    boss_appearance =  hourValue + 1 + ":45";
                 }
             } else if (hourValue == 7) {
                 if (minuteValue < 45) {
-                    boss_appearance = hourValue + ":45";
+                    boss_appearance =  hourValue + ":45";
                 } else {
-                    boss_appearance = hourValue + 2 + ":15";
+                    boss_appearance =  hourValue + 2 + ":15";
                 }
             } else if (hourValue == 8) {
-                boss_appearance = hourValue + 1 + ":15";
+                boss_appearance =  hourValue + 1 + ":15";
             } else if (hourValue == 9) {
                 if (minuteValue < 15) {
-                    boss_appearance = hourValue + ":15";
+                    boss_appearance =  hourValue + ":15";
                 } else {
                     boss_appearance = hourValue + 1 + ":45";
                 }
@@ -834,11 +932,26 @@ public class MainActivity extends Activity  {
 
         if(bossName == "프랑케네뜨"){
             if(hourValue >= 0 && hourValue <= 12){
-                if(minuteValue < 20){
-                    boss_appearance = hourValue + ":20";
-                } else {
-                    boss_appearance = hourValue+1 + ":20";
+
+                if(hourValue >= 0 && hourValue <= 9){
+                    if(minuteValue < 20){
+                        boss_appearance = hourValue + ":20";
+                    } else {
+                        if(hourValue < 9){
+                            boss_appearance =  hourValue+1 + ":20";
+                        } else {
+                            boss_appearance = hourValue+1 + ":20";
+                        }
+
+                    }
+                } else if (hourValue >= 10 && hourValue <= 12){
+                    if(minuteValue < 20){
+                        boss_appearance = hourValue + ":20";
+                    } else {
+                        boss_appearance = hourValue+1 + ":20";
+                    }
                 }
+
             } else if (hourValue >= 13 && hourValue <= 22){
                 if(minuteValue < 20){
                     boss_appearance = hourValue + ":20";
@@ -858,6 +971,7 @@ public class MainActivity extends Activity  {
         }
 
         if(bossName == "경비대장 차우"){
+
             if(minuteValue < 5){
                 boss_appearance = hourValue + ":05";
             } else if (minuteValue >= 5 && minuteValue < 20){
@@ -875,15 +989,15 @@ public class MainActivity extends Activity  {
 
             if(hourValue == 0){
                 if(minuteValue < 25){
-                    boss_appearance = hourValue + ":25";
+                    boss_appearance =hourValue + ":25";
                 } else {
-                    boss_appearance = hourValue+1 + ":55";
+                    boss_appearance =  hourValue+1 + ":55";
                 }
             } else if (hourValue == 1){
                 if(minuteValue < 55){
                     boss_appearance = hourValue + ":55";
                 } else {
-                    boss_appearance = hourValue+2 + ":25";
+                    boss_appearance =hourValue+2 + ":25";
                 }
             } else if (hourValue == 2){
                 boss_appearance = hourValue+1 + ":25";
@@ -900,7 +1014,7 @@ public class MainActivity extends Activity  {
                     boss_appearance = hourValue+2 + ":25";
                 }
             } else if (hourValue == 5){
-                boss_appearance = hourValue+1 + ":25";
+                boss_appearance =  hourValue+1 + ":25";
             } else if (hourValue == 6){
                 if(minuteValue < 25){
                     boss_appearance = hourValue + ":25";
@@ -955,10 +1069,25 @@ public class MainActivity extends Activity  {
 
         if(bossName == "매드오네뜨"){
             if(hourValue >= 0 && hourValue <= 11){
-                if(minuteValue < 30){
-                    boss_appearance = hourValue + ":30";
-                } else {
-                    boss_appearance = hourValue+1 + ":30";
+                if(hourValue >= 0 && hourValue <= 9){
+
+                    if(minuteValue < 30){
+                        boss_appearance = hourValue + ":30";
+                    } else {
+                        if(hourValue < 9){
+                            boss_appearance = hourValue+1 + ":30";
+                        } else {
+                            boss_appearance = hourValue+1 + ":30";
+                        }
+
+                    }
+                } else if (hourValue >= 10 && hourValue <= 11){
+
+                    if(minuteValue < 30){
+                        boss_appearance = hourValue + ":30";
+                    } else {
+                        boss_appearance = hourValue+1 + ":30";
+                    }
                 }
             } else if (hourValue == 12) {
                 if (minuteValue < 30) {
