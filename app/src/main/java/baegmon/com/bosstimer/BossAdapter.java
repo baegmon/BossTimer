@@ -18,7 +18,6 @@ public class BossAdapter extends BaseAdapter implements Filterable{
 
     Context context;
     ArrayList<Boss> bossList;
-    ArrayList<Boss> bossTempList;
     ArrayList<Boss> bossStringFilterList;
     BossFilter filter;
 
@@ -39,7 +38,6 @@ public class BossAdapter extends BaseAdapter implements Filterable{
     public Object getItem(int position){
         return bossList.get(position);
     }
-
 
     @Override
     public long getItemId(int position){
@@ -100,6 +98,7 @@ public class BossAdapter extends BaseAdapter implements Filterable{
                                 bossStringFilterList.get(i).getBoss_name(),
                                 bossStringFilterList.get(i).getBoss_time(),
                                 bossStringFilterList.get(i).getBoss_appearance());
+
 
                         filterList.add(boss);
 

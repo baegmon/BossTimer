@@ -1,27 +1,4 @@
 <resources>
     <string name="app_name">Boss Timer</string>
 
-
-    <string-array name="boss_array">
-        <item>다크 지란트</item>
-        <item>머쉬맘</item>
-        <item>MARK52 알파</item>
-        <item>깡패 바라하</item>
-        <item>데블린 워리어</item>
-        <item>닉시</item>
-        <item>에피</item>
-        <item>자이언트 라바아이</item>
-        <item>둔둔</item>
-        <item>레버넌트 좀비</item>
-        <item>우르자</item>
-        <item>부기콜리</item>
-        <item>그리폰</item>
-        <item>프랑케네뜨</item>
-        <item>경비대장 차우</item>
-        <item>그리피나</item>
-        <item>매드오네뜨</item>
-        <item>자이언트 터틀</item>
-
-    </string-array>
-
 </resources>
