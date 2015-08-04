@@ -2,6 +2,8 @@ package baegmon.com.bosstimer;
 
 
 import android.content.Context;
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +59,7 @@ public class BossAdapter extends BaseAdapter implements Filterable{
     public View getView(int position, View convertView, ViewGroup parent) {
 
         LayoutInflater vi = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
+        Typeface custom_font = Typeface.createFromAsset(context.getAssets(), "fonts/cl.ttf");
         convertView = null;
 
         if(convertView == null){
@@ -67,10 +69,18 @@ public class BossAdapter extends BaseAdapter implements Filterable{
             TextView name = (TextView)convertView.findViewById(R.id.boss_name);
             TextView time = (TextView)convertView.findViewById(R.id.boss_time);
             TextView appearance = (TextView)convertView.findViewById(R.id.boss_appearance);
+            TextView level = (TextView) convertView.findViewById(R.id.boss_level);
 
             Boss boss = bossList.get(position);
 
+            name.setTypeface(custom_font);
+            time.setTypeface(custom_font);
+            appearance.setTypeface(custom_font);
+            level.setTypeface(custom_font);
+
+
             bossIcon.setImageResource(boss.getBoss_icon());
+            level.setText(boss.getBoss_level());
             name.setText(boss.getBoss_name());
             time.setText("(~" + boss.getBoss_time() + ")");
             appearance.setText("다음출현: " + boss.getBoss_appearance());
@@ -97,6 +107,7 @@ public class BossAdapter extends BaseAdapter implements Filterable{
                         Boss boss = new Boss(bossStringFilterList.get(i).getBoss_icon(),
                                 bossStringFilterList.get(i).getBoss_name(),
                                 bossStringFilterList.get(i).getBoss_time(),
+                                bossStringFilterList.get(i).getBoss_level(),
                                 bossStringFilterList.get(i).getBoss_appearance());
 
 

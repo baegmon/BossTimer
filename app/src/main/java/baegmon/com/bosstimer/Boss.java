@@ -7,15 +7,24 @@ public class Boss {
     private String boss_name;
     private String boss_time_resource;
     private String boss_appearance;
+    private String boss_level;
 
 
+    public String getBoss_level() {
+        return boss_level;
+    }
 
+    public void setBoss_level(String boss_level) {
+        this.boss_level = boss_level;
+    }
 
-    public Boss(int boss_icon, String boss_name, String boss_time, String boss_appearance ){
+    public Boss(int boss_icon, String boss_name, String boss_time, String boss_appearance, String boss_level ){
         this.setBoss_icon(boss_icon);
         this.setBoss_name(boss_name);
         this.setBoss_time(boss_time);
         this.setBoss_appearance(boss_appearance);
+        this.setBoss_level(boss_level);
+
 
     }
 
