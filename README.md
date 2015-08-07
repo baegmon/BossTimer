@@ -5,4 +5,4 @@ Download for free: https://play.google.com/store/apps/details?id=baegmon.com.bos
 
 Written in Java using Android Studio
 
-![Image of App](http://puu.sh/jg7o0/c1318f20bb.jpg)
+![Image of App](http://i.imgur.com/HAFGsLl.png)
