@@ -3,6 +3,7 @@ package baegmon.com.bosstimer;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Handler;
 import android.os.Bundle;
 import android.text.Editable;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
@@ -59,6 +61,7 @@ public class MainActivity extends Activity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         AdView ad = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         ad.loadAd(adRequest);
@@ -70,6 +73,99 @@ public class MainActivity extends Activity  {
 
     }
 
+
+
+    private void createListview(){
+        listView = (ListView) findViewById(R.id.list_view);
+        search_view = (EditText)findViewById(R.id.search_text);
+
+        bossList = new ArrayList<Boss>();
+        adapter = new BossAdapter(getApplicationContext(), bossList);
+
+
+        listView.setAdapter(adapter);
+        listView.setTextFilterEnabled(true);
+
+
+        for (String boss : boss_title) {
+            bossID = getID(boss);
+            String bossAppearance = getBossAppearance(boss);
+            String bossTime = getKoreanTime(boss);
+            String bossLevel = getBossLevel(boss);
+
+            if(bossAppearance.substring(0, 2).contains("24")) {
+
+                bossAppearance = "00" + bossAppearance.substring(2, 5);
+            }
+
+            if(bossAppearance.length() == 4){
+                bossAppearance = "0" + bossAppearance;
+            }
+
+
+            Boss bossObject = new Boss(boss_icon[bossID], boss, bossTime, bossAppearance, bossLevel);
+            bossList.add(bossObject);
+
+        }
+        // set action when custom list view is clicked
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3)
+            {
+                Boss b = (Boss) listView.getItemAtPosition(position);
+                String bossName = b.getBoss_name();
+                Intent i = new Intent(getApplicationContext(), DetailActivity.class);
+                i.putExtra("bossName", bossName);
+                startActivity(i);
+
+
+            }
+        });
+
+
+        handler = new Handler();
+        Runnable update = new Runnable() {
+            @Override
+            public void run() {
+
+
+                int count = adapter.getCount();
+                for (int i = 0; i < count; i++) {
+                    String boss = ((Boss) adapter.getItem(i)).getBoss_name();
+                    String bossTime = getKoreanTime(boss);
+                    ((Boss) adapter.getItem(i)).setBoss_time(bossTime); // Re-set time
+                }
+
+                adapter.notifyDataSetChanged(); // Notify our update
+                handler.postDelayed(this, 1000);
+            }
+        };
+        handler.postDelayed(update, 10);
+
+
+        EditText myFilter = (EditText) findViewById(R.id.search_text);
+        myFilter.addTextChangedListener(new TextWatcher() {
+
+            public void afterTextChanged(Editable s) {
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapter.getFilter().filter(s.toString());
+            }
+        });
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
 
 
     private String getBossLevel(String bossName){
@@ -272,99 +368,6 @@ public class MainActivity extends Activity  {
         }
 
         return id;
-    }
-
-
-    private void createListview(){
-        listView = (ListView) findViewById(R.id.list_view);
-        search_view = (EditText)findViewById(R.id.search_text);
-
-        bossList = new ArrayList<Boss>();
-        adapter = new BossAdapter(getApplicationContext(), bossList);
-
-
-        listView.setAdapter(adapter);
-        listView.setTextFilterEnabled(true);
-
-
-        for (String boss : boss_title) {
-            bossID = getID(boss);
-            String bossAppearance = getBossAppearance(boss);
-            String bossTime = getKoreanTime(boss);
-            String bossLevel = getBossLevel(boss);
-
-            if(bossAppearance.substring(0, 2).contains("24")) {
-
-                bossAppearance = "00" + bossAppearance.substring(2, 5);
-            }
-
-            if(bossAppearance.length() == 4){
-                bossAppearance = "0" + bossAppearance;
-            }
-
-
-            Boss bossObject = new Boss(boss_icon[bossID], boss, bossTime, bossAppearance, bossLevel);
-            bossList.add(bossObject);
-
-        }
-        // set action when custom list view is clicked
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3)
-            {
-                Boss b = (Boss) listView.getItemAtPosition(position);
-                String bossName = b.getBoss_name();
-                Intent i = new Intent(getApplicationContext(), DetailActivity.class);
-                i.putExtra("bossName", bossName);
-                startActivity(i);
-
-
-            }
-        });
-
-
-        handler = new Handler();
-        Runnable update = new Runnable() {
-            @Override
-            public void run() {
-
-
-                int count = adapter.getCount();
-                for (int i = 0; i < count; i++) {
-                    String boss = ((Boss) adapter.getItem(i)).getBoss_name();
-                    String bossTime = getKoreanTime(boss);
-                    ((Boss) adapter.getItem(i)).setBoss_time(bossTime); // Re-set time
-                }
-
-                adapter.notifyDataSetChanged(); // Notify our update
-                handler.postDelayed(this, 1000);
-            }
-        };
-        handler.postDelayed(update, 10);
-
-
-        EditText myFilter = (EditText) findViewById(R.id.search_text);
-        myFilter.addTextChangedListener(new TextWatcher() {
-
-            public void afterTextChanged(Editable s) {
-            }
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                adapter.getFilter().filter(s.toString());
-            }
-        });
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
     }
 
 

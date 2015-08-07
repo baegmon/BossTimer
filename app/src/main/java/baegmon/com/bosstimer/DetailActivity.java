@@ -2,7 +2,6 @@ package baegmon.com.bosstimer;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
@@ -121,31 +120,14 @@ public class DetailActivity extends Activity {
     }
 
     private void createDetailedView(){
-        Typeface custom_font = Typeface.createFromAsset(getAssets(), "fonts/cl.ttf");
         ImageView bossIcon = (ImageView) findViewById(R.id.boss_detail_icon);
         TextView name = (TextView) findViewById(R.id.boss_detail_name);
         TextView type = (TextView) findViewById(R.id.boss_detail_type);
         TextView location = (TextView) findViewById(R.id.boss_detail_location);
         TextView level = (TextView) findViewById(R.id.boss_detail_level);
         TextView hp = (TextView) findViewById(R.id.boss_detail_hp);
-        name.setTypeface(custom_font);
-        location.setTypeface(custom_font);
-        type.setTypeface(custom_font);
-        level.setTypeface(custom_font);
-        hp.setTypeface(custom_font);
 
 
-        // set fonts
-        TextView text = (TextView) findViewById(R.id.textView);
-        TextView text2 = (TextView) findViewById(R.id.textView2);
-        TextView text3 = (TextView) findViewById(R.id.textView3);
-        TextView text4 = (TextView) findViewById(R.id.textView4);
-        TextView text5 = (TextView) findViewById(R.id.textView5);
-        text.setTypeface(custom_font);
-        text2.setTypeface(custom_font);
-        text3.setTypeface(custom_font);
-        text4.setTypeface(custom_font);
-        text5.setTypeface(custom_font);
 
 
 
@@ -423,7 +405,7 @@ public class DetailActivity extends Activity {
         }
 
         if(bossName.equals("레버넌트 좀비")){
-            location = "나무꾼의 언덕 -> 버려진 납골당";
+            location = "버려진 납골당";
         }
 
         if(bossName.equals("다크 지란트")){
@@ -435,11 +417,11 @@ public class DetailActivity extends Activity {
         }
 
         if(bossName.equals("자이언트 라바아이")){
-            location = "핫뜨뜨 강가 -> 라바아이의 둥지";
+            location = "라바아이의 둥지";
         }
 
         if(bossName.equals("부기콜리")){
-            location = "로얄로드 진입광장 -> 부기콜리 동굴";
+            location = "부기콜리 동굴";
         }
 
         if(bossName.equals("자이언트 터틀")){
@@ -459,7 +441,7 @@ public class DetailActivity extends Activity {
         }
 
         if(bossName.equals("머쉬맘")){
-            location = "헤네시스 -> 남의 집";
+            location = "남의 집";
         }
 
         if(bossName.equals("데블린 워리어")){
@@ -484,7 +466,7 @@ public class DetailActivity extends Activity {
         }
 
         if (bossName.equals("프랑케네뜨")){
-            location = "뉴런 DNA 연구 센터 -> 연구센터 지하실";
+            location = "연구센터 지하실";
         }
 
         if(bossName.equals("킹슬라임")){

@@ -13,6 +13,8 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Locale;
 
 
@@ -59,7 +61,6 @@ public class BossAdapter extends BaseAdapter implements Filterable{
     public View getView(int position, View convertView, ViewGroup parent) {
 
         LayoutInflater vi = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        Typeface custom_font = Typeface.createFromAsset(context.getAssets(), "fonts/cl.ttf");
         convertView = null;
 
         if(convertView == null){
@@ -73,12 +74,6 @@ public class BossAdapter extends BaseAdapter implements Filterable{
 
             Boss boss = bossList.get(position);
 
-            name.setTypeface(custom_font);
-            time.setTypeface(custom_font);
-            appearance.setTypeface(custom_font);
-            level.setTypeface(custom_font);
-
-
             bossIcon.setImageResource(boss.getBoss_icon());
             level.setText(boss.getBoss_level());
             name.setText(boss.getBoss_name());
@@ -88,6 +83,9 @@ public class BossAdapter extends BaseAdapter implements Filterable{
         }
         return convertView;
     }
+
+
+
 
     private class BossFilter extends Filter{
         @Override
@@ -107,8 +105,8 @@ public class BossAdapter extends BaseAdapter implements Filterable{
                         Boss boss = new Boss(bossStringFilterList.get(i).getBoss_icon(),
                                 bossStringFilterList.get(i).getBoss_name(),
                                 bossStringFilterList.get(i).getBoss_time(),
-                                bossStringFilterList.get(i).getBoss_level(),
-                                bossStringFilterList.get(i).getBoss_appearance());
+                                bossStringFilterList.get(i).getBoss_appearance(),
+                                bossStringFilterList.get(i).getBoss_level());
 
 
                         filterList.add(boss);
