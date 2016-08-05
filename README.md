@@ -7,4 +7,4 @@ Written in Java using Android Studio.
 
 ![Image of App](http://i.imgur.com/HAFGsLl.png)
 
-Messy code please ignore
+Messy code please ignore (written before Java 8 for Android SDK)
